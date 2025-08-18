@@ -804,66 +804,89 @@
         }
 
         // Обработка формы
-        document.addEventListener('DOMContentLoaded', function() {
-            startCountdown();
-            
-            const form = document.getElementById('leadForm');
-            const successMessage = document.getElementById('successMessage');
-            const errorMessage = document.getElementById('errorMessage');
-            
-            if (!form) {
-                console.error('Форма с ID "leadForm" не найдена');
-                return;
-            }
-            
-            if (!successMessage || !errorMessage) {
-                console.error('Элементы сообщений не найдены');
-                return;
-            }
-            
-            form.addEventListener('submit', function(e) {
-                e.preventDefault();
-                
-                const submitBtn = form.querySelector('button[type="submit"]');
-                const originalText = submitBtn.innerHTML;
-                
-                // Меняем кнопку на "Отправка..."
-                submitBtn.innerHTML = 'Отправка...';
-                submitBtn.disabled = true;
-
-                fetch(form.action, {
-                    method: 'POST',
-                    body: new FormData(form),
-                    headers: { 'Accept': 'application/json' }
-                })
-                .then(response => {
-                    if (response.ok) {
-                        successMessage.style.display = 'block';
-                        errorMessage.style.display = 'none';
-                        form.reset();
-                        
-                        // Через 1 секунда показываем результат
-                        setTimeout(() => {
-                            document.getElementById('contactForm').style.display = 'none';
-                            document.getElementById('instantResult').style.display = 'block';
-                        }, 1000);
-                    } else {
-                        return response.json().then(data => {
-                            throw new Error(data.errors?.map(e => e.message).join(', ') || 'Ошибка отправки формы');
-                        });
-                    }
-                })
-                .catch(error => {
-                    errorMessage.textContent = 'Ошибка: ' + error.message;
-                    errorMessage.style.display = 'block';
-                    successMessage.style.display = 'none';
-                })
-                .finally(() => {
-                    submitBtn.innerHTML = originalText;
-                    submitBtn.disabled = false;
-                });
-            });
+document.addEventListener('DOMContentLoaded', function() {
+  startCountdown();
+  
+  const form = document.getElementById('leadForm');
+  const successMessage = document.getElementById('successMessage');
+  const errorMessage = document.getElementById('errorMessage');
+  
+  if (!form) {
+    console.error('Форма не найдена');
+    return;
+  }
+  
+  if (!successMessage || !errorMessage) {
+    console.error('Элементы сообщений не найдены');
+    return;
+  }
+  
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const submitBtn = form.querySelector('button[type="submit"]');
+    if (!submitBtn) {
+      console.error('Кнопка отправки не найдена');
+      return;
+    }
+    
+    const originalText = submitBtn.innerHTML;
+    submitBtn.innerHTML = 'Отправка...';
+    submitBtn.disabled = true;
+    
+    // Собираем данные формы
+    const formData = new FormData(form);
+    const formObject = {};
+    formData.forEach((value, key) => {
+      formObject[key] = value;
+    });
+    
+    console.log('Отправляемые данные:', formObject);
+    
+    fetch('https://formspree.io/f/xkgzaqag', {
+      method: 'POST',
+      body: new FormData(form),
+      headers: {
+        'Accept': 'application/json'
+      },
+      mode: 'cors'
+    })
+    .then(response => {
+      console.log('Статус ответа:', response.status);
+      if (response.ok) {
+        successMessage.style.display = 'block';
+        errorMessage.style.display = 'none';
+        form.reset();
+        
+        setTimeout(() => {
+          const contactForm = document.getElementById('contactForm');
+          const instantResult = document.getElementById('instantResult');
+          
+          if (contactForm) contactForm.style.display = 'none';
+          if (instantResult) {
+            instantResult.style.display = 'block';
+            instantResult.scrollIntoView({ behavior: 'smooth' });
+          }
+        }, 1000);
+      } else {
+        return response.json().then(data => {
+          console.error('Ошибка Formspree:', data);
+          throw new Error(data.errors?.map(e => e.message).join(', ') || 'Ошибка отправки формы');
         });
+      }
+    })
+    .catch(error => {
+      console.error('Ошибка при отправке:', error);
+      errorMessage.textContent = 'Ошибка: ' + error.message;
+      errorMessage.style.display = 'block';
+      successMessage.style.display = 'none';
+    })
+    .finally(() => {
+      submitBtn.innerHTML = originalText;
+      submitBtn.disabled = false;
+    });
+  });
+});
 
         // Чат-бот
         function toggleChatbot() {
