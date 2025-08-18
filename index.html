@@ -598,25 +598,31 @@
                     Произошла ошибка при отправке заявки. Пожалуйста, попробуйте позже.
                 </div>
                 <form id="leadForm" action="https://formspree.io/f/xkgzaqag" method="POST">
-                    <input type="hidden" name="debtAmount" id="formDebtAmount">
-                    <input type="hidden" name="savingsAmount" id="formSavingsAmount">
-                    <input type="hidden" name="debtType" id="formDebtType">
-                    <input type="hidden" name="property" id="formProperty">
-                    <div class="form-group">
-                        <label for="name">Ваше имя</label>
-                        <input type="text" id="name" name="name" required placeholder="Иван">
-                    </div>
-                    <div class="form-group">
-                        <label for="phone">Номер телефона</label>
-                        <input type="tel" id="phone" name="phone" required placeholder="+7 (999) 999-99-99">
-                    </div>
-                    <div class="form-group">
-                        <label for="email">Email (необязательно)</label>
-                        <input type="email" id="email" name="email" placeholder="example@email.com">
-                    </div>
-                    <input type="hidden" name="message" value="Заявка с сайта АнтиДолги">
-                    <button type="submit" class="btn btn-primary" style="width: 100%;">Получить консультацию</button>
-                </form>
+  <input type="hidden" name="debtAmount" id="formDebtAmount">
+  <input type="hidden" name="savingsAmount" id="formSavingsAmount">
+  <input type="hidden" name="debtType" id="formDebtType">
+  <input type="hidden" name="property" id="formProperty">
+  <input type="hidden" name="message" value="Заявка с сайта АнтиДолги">
+  
+  <div class="form-group">
+    <label for="name">Ваше имя</label>
+    <input type="text" id="name" name="name" required placeholder="Иван">
+  </div>
+  <div class="form-group">
+    <label for="phone">Номер телефона</label>
+    <input type="tel" id="phone" name="phone" required placeholder="+7 (999) 999-99-99">
+  </div>
+  <div class="form-group">
+    <label for="email">Email (необязательно)</label>
+    <input type="email" id="email" name="email" placeholder="example@email.com">
+  </div>
+  <button type="submit" class="btn btn-primary" style="width: 100%;">Получить консультацию</button>
+  
+  <!-- Мгновенный результат -->
+  <div class="instant-result" id="instantResult" style="background-color: white; border-radius: 15px; padding: 30px; margin-top: 30px; display: none;">
+    <!-- содержимое результата -->
+  </div>
+</form>
                 
                 <!-- Мгновенный результат (вынесен за пределы формы) -->
                 <div class="instant-result" id="instantResult">
@@ -909,25 +915,60 @@
         }
 
         // Обработка формы
-        document.addEventListener('DOMContentLoaded', function() {
-            startCountdown();
-            
-            // Обработчик онлайн-статуса
-            const onlineStatus = document.getElementById('onlineStatus');
-            const messengerOptions = document.getElementById('messengerOptions');
-            
-            if (onlineStatus && messengerOptions) {
-                onlineStatus.addEventListener('click', function(e) {
-                    e.stopPropagation();
-                    messengerOptions.classList.toggle('show');
-                });
-                
-                document.addEventListener('click', function(e) {
-                    if (!onlineStatus.contains(e.target)) {
-                        messengerOptions.classList.remove('show');
-                    }
-                });
-            }
+document.addEventListener('DOMContentLoaded', function() {
+  startCountdown();
+  const form = document.getElementById('leadForm');
+  const successMessage = document.getElementById('successMessage');
+  const errorMessage = document.getElementById('errorMessage');
+  
+  if (form) {
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const submitBtn = form.querySelector('button[type="submit"]');
+      const originalText = submitBtn.innerHTML;
+      
+      // Меняем кнопку на "Отправка..."
+      submitBtn.innerHTML = 'Отправка...';
+      submitBtn.disabled = true;
+
+      fetch(form.action, {
+        method: 'POST',
+        body: new FormData(form),
+        headers: {
+          'Accept': 'application/json'
+        }
+      })
+      .then(response => {
+        if (response.ok) {
+          successMessage.style.display = 'block';
+          errorMessage.style.display = 'none';
+          form.reset();
+          
+          // Через 1 секунду показываем результат
+          setTimeout(() => {
+            document.getElementById('contactForm').style.display = 'none';
+            document.getElementById('instantResult').style.display = 'block';
+            document.getElementById('instantResult').scrollIntoView({ behavior: 'smooth' });
+          }, 1000);
+        } else {
+          return response.json().then(data => {
+            throw new Error(data.errors?.map(e => e.message).join(', ') || 'Ошибка отправки формы');
+          });
+        }
+      })
+      .catch(error => {
+        errorMessage.textContent = 'Ошибка: ' + error.message;
+        errorMessage.style.display = 'block';
+        successMessage.style.display = 'none';
+      })
+      .finally(() => {
+        submitBtn.innerHTML = originalText;
+        submitBtn.disabled = false;
+      });
+    });
+  }
+});
             
             const form = document.getElementById('leadForm');
             const successMessage = document.getElementById('successMessage');
