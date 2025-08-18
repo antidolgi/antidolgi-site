@@ -404,6 +404,32 @@
             font-size: 14px;
             box-sizing: border-box;
         }
+        /* Мгновенный результат */
+        .instant-result {
+            background-color: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-top: 30px;
+            display: none;
+        }
+        .instant-result h3 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: var(--primary-blue);
+        }
+        .instant-result-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid #eee;
+        }
+        .instant-result-item:last-child {
+            border-bottom: none;
+        }
+        .instant-result-label {
+            font-weight: 500;
+            color: var(--medium-gray);
+        }
         /* Адаптивность */
         @media (max-width: 768px) {
             .hero h1 {
@@ -551,36 +577,36 @@
                         <input type="email" id="email" name="email" placeholder="example@email.com">
                     </div>
                     <button type="submit" class="btn btn-primary" style="width: 100%;">Получить консультацию</button>
-
-                    <!-- Мгновенный результат -->
-                   <div class="instant-result" id="instantResult" style="background-color: white; border-radius: 15px; padding: 30px; margin-top: 30px; display: none;">
-                        <h3 style="text-align: center; margin-bottom: 20px; color: var(--primary-blue);">Ваша индивидуальная стратегия</h3>
-                        <div style="display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #eee;">
-                            <span style="font-weight: 500; color: var(--medium-gray);">Сумма долга:</span>
-                            <span style="font-weight: 600; color: var(--primary-blue);" id="resultDebt">—</span>
-                        </div>
-                        <div style="display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #eee;">
-                            <span style="font-weight: 500; color: var(--medium-gray);">Ваша выгода:</span>
-                            <span style="font-weight: 600; color: var(--primary-blue);" id="resultSavings">—</span>
-                        </div>
-                        <div style="display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #eee;">
-                            <span style="font-weight: 500; color: var(--medium-gray);">Шанс успеха:</span>
-                            <span style="font-weight: 600; color: var(--primary-blue);">92%</span>
-                        </div>
-                        <div style="display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #eee;">
-                            <span style="font-weight: 500; color: var(--medium-gray);">Срок процедуры:</span>
-                            <span style="font-weight: 600; color: var(--primary-blue);">от 6 месяцев</span>
-                        </div>
-                        <div style="display: flex; justify-content: space-between; padding: 12px 0;">
-                            <span style="font-weight: 500; color: var(--medium-gray);">Стоимость услуг:</span>
-                            <span style="font-weight: 600; color: var(--primary-blue);" id="resultCost">от 150 000 ₽</span>
-                        </div>
-                        <a href="https://antidolgi24.ru" target="_blank" class="btn btn-primary" style="width: 100%; margin-top: 20px;">Подробнее на antidolgi24.ru</a>
-                    </div>
                 </form>
             </div>
         </div>
     </section>
+
+    <!-- МГНОВЕННЫЙ РЕЗУЛЬТАТ (ВНЕ ФОРМЫ) -->
+    <div class="instant-result" id="instantResultFinal" style="background-color: white; border-radius: 15px; padding: 30px; margin-top: 30px; display: none;">
+        <h3 style="text-align: center; margin-bottom: 20px; color: var(--primary-blue);">Ваша индивидуальная стратегия</h3>
+        <div class="instant-result-item">
+            <span class="instant-result-label">Сумма долга:</span>
+            <span style="font-weight: 600; color: var(--primary-blue);" id="resultDebt">—</span>
+        </div>
+        <div class="instant-result-item">
+            <span class="instant-result-label">Ваша выгода:</span>
+            <span style="font-weight: 600; color: var(--primary-blue);" id="resultSavings">—</span>
+        </div>
+        <div class="instant-result-item">
+            <span class="instant-result-label">Шанс успеха:</span>
+            <span style="font-weight: 600; color: var(--primary-blue);">92%</span>
+        </div>
+        <div class="instant-result-item">
+            <span class="instant-result-label">Срок процедуры:</span>
+            <span style="font-weight: 600; color: var(--primary-blue);">от 6 месяцев</span>
+        </div>
+        <div class="instant-result-item">
+            <span class="instant-result-label">Стоимость услуг:</span>
+            <span style="font-weight: 600; color: var(--primary-blue);" id="resultCost">от 150 000 ₽</span>
+        </div>
+        <a href="https://antidolgi24.ru" target="_blank" class="btn btn-primary" style="width: 100%; margin-top: 20px;">Подробнее на antidolgi24.ru</a>
+    </div>
 
     <!-- Отзывы из соцсетей -->
     <section class="social-reviews">
@@ -780,7 +806,7 @@
                 // Показываем стоимость с пояснением
                 document.getElementById('resultCost').innerHTML = costInfo.message;
                 
-                document.getElementById('instantResult').style.display = 'block';
+                document.getElementById('instantResultFinal').style.display = 'block';
                 document.getElementById('contactForm').scrollIntoView({ behavior: 'smooth' });
             }, 300);
         }
@@ -804,66 +830,79 @@
         }
 
         // Обработка формы
-<!-- Форма для заявки -->
-<div class="contact-form hidden" id="contactForm">
-  <h2 class="section-title" style="font-size: 28px; margin-bottom: 15px;">Оставьте контактные данные</h2>
-  <p class="section-subtitle" style="margin-bottom: 25px;">Мы свяжемся с вами в течение 5 минут</p>
-  <div class="success-message" id="successMessage">
-    Спасибо! Ваша заявка успешно отправлена. Мы свяжемся с вами в ближайшее время.
-  </div>
-  <div class="error-message" id="errorMessage">
-    Произошла ошибка при отправке заявки. Пожалуйста, попробуйте позже.
-  </div>
-  
-  <!-- ФОРМА (ТОЛЬКО ПОЛЯ ФОРМЫ) -->
-  <form id="leadForm" action="https://formspree.io/f/xkgzaqag" method="POST">
-    <input type="hidden" name="debtAmount" id="formDebtAmount">
-    <input type="hidden" name="savingsAmount" id="formSavingsAmount">
-    <input type="hidden" name="debtType" id="formDebtType">
-    <input type="hidden" name="property" id="formProperty">
-    <input type="hidden" name="message" value="Заявка с сайта АнтиДолги">
-    
-    <div class="form-group">
-      <label for="name">Ваше имя</label>
-      <input type="text" id="name" name="name" required placeholder="Иван">
-    </div>
-    <div class="form-group">
-      <label for="phone">Номер телефона</label>
-      <input type="tel" id="phone" name="phone" required placeholder="+7 (999) 999-99-99">
-    </div>
-    <div class="form-group">
-      <label for="email">Email (необязательно)</label>
-      <input type="email" id="email" name="email" placeholder="example@email.com">
-    </div>
-    <button type="submit" class="btn btn-primary" style="width: 100%;">Получить консультацию</button>
-  </form>
-</div>
-
-<!-- МГНОВЕННЫЙ РЕЗУЛЬТАТ ВЫНЕСЕН ЗА ПРЕДЕЛЫ ФОРМЫ -->
-<div class="instant-result" id="instantResult" style="background-color: white; border-radius: 15px; padding: 30px; margin-top: 30px; display: none;">
-  <h3 style="text-align: center; margin-bottom: 20px; color: var(--primary-blue);">Ваша индивидуальная стратегия</h3>
-  <div style="display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #eee;">
-    <span style="font-weight: 500; color: var(--medium-gray);">Сумма долга:</span>
-    <span style="font-weight: 600; color: var(--primary-blue);" id="resultDebt">—</span>
-  </div>
-  <div style="display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #eee;">
-    <span style="font-weight: 500; color: var(--medium-gray);">Ваша выгода:</span>
-    <span style="font-weight: 600; color: var(--primary-blue);" id="resultSavings">—</span>
-  </div>
-  <div style="display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #eee;">
-    <span style="font-weight: 500; color: var(--medium-gray);">Шанс успеха:</span>
-    <span style="font-weight: 600; color: var(--primary-blue);">92%</span>
-  </div>
-  <div style="display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #eee;">
-    <span style="font-weight: 500; color: var(--medium-gray);">Срок процедуры:</span>
-    <span style="font-weight: 600; color: var(--primary-blue);">от 6 месяцев</span>
-  </div>
-  <div style="display: flex; justify-content: space-between; padding: 12px 0;">
-    <span style="font-weight: 500; color: var(--medium-gray);">Стоимость услуг:</span>
-    <span style="font-weight: 600; color: var(--primary-blue);" id="resultCost">от 150 000 ₽</span>
-  </div>
-  <a href="https://antidolgi24.ru" target="_blank" class="btn btn-primary" style="width: 100%; margin-top: 20px;">Подробнее на antidolgi24.ru</a>
-</div>
+        document.addEventListener('DOMContentLoaded', function() {
+            startCountdown();
+            
+            const form = document.getElementById('leadForm');
+            const successMessage = document.getElementById('successMessage');
+            const errorMessage = document.getElementById('errorMessage');
+            
+            if (!form) {
+                console.error('Форма не найдена');
+                return;
+            }
+            
+            if (!successMessage || !errorMessage) {
+                console.error('Элементы сообщений не найдены');
+                return;
+            }
+            
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const submitBtn = form.querySelector('button[type="submit"]');
+                if (!submitBtn) {
+                    console.error('Кнопка отправки не найдена');
+                    return;
+                }
+                
+                const originalText = submitBtn.innerHTML;
+                submitBtn.innerHTML = 'Отправка...';
+                submitBtn.disabled = true;
+                
+                fetch('https://formspree.io/f/xkgzaqag', {
+                    method: 'POST',
+                    body: new FormData(form),
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                })
+                .then(response => {
+                    console.log('Статус ответа:', response.status);
+                    if (response.ok) {
+                        successMessage.style.display = 'block';
+                        errorMessage.style.display = 'none';
+                        form.reset();
+                        
+                        setTimeout(() => {
+                            const contactForm = document.getElementById('contactForm');
+                            const instantResult = document.getElementById('instantResultFinal');
+                            
+                            if (contactForm) contactForm.style.display = 'none';
+                            if (instantResult) {
+                                instantResult.style.display = 'block';
+                                instantResult.scrollIntoView({ behavior: 'smooth' });
+                            }
+                        }, 1000);
+                    } else {
+                        return response.json().then(data => {
+                            console.error('Ошибка Formspree:', data);
+                            throw new Error(data.errors?.map(e => e.message).join(', ') || 'Ошибка отправки формы');
+                        });
+                    }
+                })
+                .catch(error => {
+                    console.error('Ошибка при отправке:', error);
+                    errorMessage.textContent = 'Ошибка: ' + error.message;
+                    errorMessage.style.display = 'block';
+                    successMessage.style.display = 'none';
+                })
+                .finally(() => {
+                    submitBtn.innerHTML = originalText;
+                    submitBtn.disabled = false;
+                });
+            });
+        });
 
         // Чат-бот
         function toggleChatbot() {
