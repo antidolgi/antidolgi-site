@@ -316,62 +316,39 @@
             color: var(--primary-blue);
             margin: 10px 0;
         }
-        /* Выпадающее меню для мессенджеров */
-        .messenger-options {
-            position: absolute;
-            bottom: 100%;
-            right: 0;
-            margin-bottom: 10px;
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-            overflow: hidden;
-            width: 180px;
-            z-index: 10000;
-            animation: fadeIn 0.2s ease;
-            transform: translateY(10px);
-            opacity: 0;
-            pointer-events: none;
+        /* Преимущества */
+        .features {
+            padding: 70px 0;
+            background-color: #f0f4f8;
         }
-        
-        .messenger-options.show {
-            transform: translateY(0);
-            opacity: 1;
-            pointer-events: auto;
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            max-width: 1000px;
+            margin: 0 auto;
         }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+        .feature {
+            background-color: var(--white);
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: var(--box-shadow);
+            transition: transform 0.3s ease;
         }
-
-        .messenger-option {
-            display: block;
-            padding: 12px 15px;
-            color: var(--dark-gray);
-            text-decoration: none;
-            transition: background 0.2s;
-            border-bottom: 1px solid #eee;
+        .feature:hover {
+            transform: translateY(-10px);
         }
-
-        .messenger-option:last-child {
-            border-bottom: none;
+        .feature-icon {
+            font-size: 40px;
+            color: var(--accent-orange);
+            margin-bottom: 20px;
         }
-
-        .messenger-option:hover {
-            background: #f8f9fa;
+        .feature h3 {
             color: var(--primary-blue);
+            margin-bottom: 15px;
+            font-size: 22px;
         }
-        
-        .messenger-option svg {
-            fill: currentColor;
-            transition: fill 0.2s;
-        }
-        
-        .messenger-option:hover svg {
-            fill: var(--primary-blue);
-        }
-
         /* Чат-бот */
         #chatbot {
             position: fixed;
@@ -427,48 +404,6 @@
             font-size: 14px;
             box-sizing: border-box;
         }
-        /* Мгновенный результат */
-        .instant-result {
-            background-color: white;
-            border-radius: 15px;
-            padding: 30px;
-            margin-top: 30px;
-            display: none;
-        }
-        .instant-result h3 {
-            text-align: center;
-            margin-bottom: 20px;
-            color: var(--primary-blue);
-        }
-        .instant-result-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 12px 0;
-            border-bottom: 1px solid #eee;
-        }
-        .instant-result-item:last-child {
-            border-bottom: none;
-        }
-        .instant-result-label {
-            font-weight: 500;
-            color: var(--medium-gray);
-        }
-        .instant-result-value {
-            font-weight: 600;
-            color: var(--primary-blue);
-        }
-        .instant-result-highlight {
-            background: #fff8e1;
-            border-radius: 8px;
-            padding: 15px;
-            margin-top: 20px;
-            text-align: center;
-        }
-        .instant-result-highlight strong {
-            color: var(--primary-blue);
-            display: block;
-            margin-bottom: 5px;
-        }
         /* Адаптивность */
         @media (max-width: 768px) {
             .hero h1 {
@@ -499,7 +434,7 @@
     <header>
         <div class="container header-content">
             <div class="logo">
-                <div class="logo-icon">35</div>
+                <div class="logo-icon">АД</div>
                 <div class="logo-text">Анти<span>Долги</span></div>
             </div>
             <div class="contact-info">
@@ -598,63 +533,51 @@
                     Произошла ошибка при отправке заявки. Пожалуйста, попробуйте позже.
                 </div>
                 <form id="leadForm" action="https://formspree.io/f/xkgzaqag" method="POST">
-  <input type="hidden" name="debtAmount" id="formDebtAmount">
-  <input type="hidden" name="savingsAmount" id="formSavingsAmount">
-  <input type="hidden" name="debtType" id="formDebtType">
-  <input type="hidden" name="property" id="formProperty">
-  <input type="hidden" name="message" value="Заявка с сайта АнтиДолги">
-  
-  <div class="form-group">
-    <label for="name">Ваше имя</label>
-    <input type="text" id="name" name="name" required placeholder="Иван">
-  </div>
-  <div class="form-group">
-    <label for="phone">Номер телефона</label>
-    <input type="tel" id="phone" name="phone" required placeholder="+7 (999) 999-99-99">
-  </div>
-  <div class="form-group">
-    <label for="email">Email (необязательно)</label>
-    <input type="email" id="email" name="email" placeholder="example@email.com">
-  </div>
-  <button type="submit" class="btn btn-primary" style="width: 100%;">Получить консультацию</button>
-  
-  <!-- Мгновенный результат -->
-  <div class="instant-result" id="instantResult" style="background-color: white; border-radius: 15px; padding: 30px; margin-top: 30px; display: none;">
-    <!-- содержимое результата -->
-  </div>
-</form>
-                
-                <!-- Мгновенный результат (вынесен за пределы формы) -->
-                <div class="instant-result" id="instantResult">
-                    <h3>Ваша индивидуальная стратегия</h3>
-                    <div class="instant-result-item">
-                        <span class="instant-result-label">Сумма долга:</span>
-                        <span class="instant-result-value" id="resultDebt">—</span>
+                    <input type="hidden" name="debtAmount" id="formDebtAmount">
+                    <input type="hidden" name="savingsAmount" id="formSavingsAmount">
+                    <input type="hidden" name="debtType" id="formDebtType">
+                    <input type="hidden" name="property" id="formProperty">
+                    <input type="hidden" name="message" value="Заявка с сайта АнтиДолги">
+                    <div class="form-group">
+                        <label for="name">Ваше имя</label>
+                        <input type="text" id="name" name="name" required placeholder="Иван">
                     </div>
-                    <div class="instant-result-item">
-                        <span class="instant-result-label">Ваша выгода:</span>
-                        <span class="instant-result-value" id="resultSavings">—</span>
+                    <div class="form-group">
+                        <label for="phone">Номер телефона</label>
+                        <input type="tel" id="phone" name="phone" required placeholder="+7 (999) 999-99-99">
                     </div>
-                    <div class="instant-result-item">
-                        <span class="instant-result-label">Шанс успеха:</span>
-                        <span class="instant-result-value">92%</span>
+                    <div class="form-group">
+                        <label for="email">Email (необязательно)</label>
+                        <input type="email" id="email" name="email" placeholder="example@email.com">
                     </div>
-                    <div class="instant-result-item">
-                        <span class="instant-result-label">Срок процедуры:</span>
-                        <span class="instant-result-value">от 6 месяцев</span>
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">Получить консультацию</button>
+
+                    <!-- Мгновенный результат -->
+                    <div class="instant-result" id="instantResult" style="background-color: white; border-radius: 15px; padding: 30px; margin-top: 30px; display: none;">
+                        <h3 style="text-align: center; margin-bottom: 20px; color: var(--primary-blue);">Ваша индивидуальная стратегия</h3>
+                        <div style="display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #eee;">
+                            <span style="font-weight: 500; color: var(--medium-gray);">Сумма долга:</span>
+                            <span style="font-weight: 600; color: var(--primary-blue);" id="resultDebt">—</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #eee;">
+                            <span style="font-weight: 500; color: var(--medium-gray);">Ваша выгода:</span>
+                            <span style="font-weight: 600; color: var(--primary-blue);" id="resultSavings">—</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #eee;">
+                            <span style="font-weight: 500; color: var(--medium-gray);">Шанс успеха:</span>
+                            <span style="font-weight: 600; color: var(--primary-blue);">92%</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #eee;">
+                            <span style="font-weight: 500; color: var(--medium-gray);">Срок процедуры:</span>
+                            <span style="font-weight: 600; color: var(--primary-blue);">от 6 месяцев</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; padding: 12px 0;">
+                            <span style="font-weight: 500; color: var(--medium-gray);">Стоимость услуг:</span>
+                            <span style="font-weight: 600; color: var(--primary-blue);" id="resultCost">от 150 000 ₽</span>
+                        </div>
+                        <a href="https://antidolgi24.ru" target="_blank" class="btn btn-primary" style="width: 100%; margin-top: 20px;">Подробнее на antidolgi24.ru</a>
                     </div>
-                    <div class="instant-result-item">
-                        <span class="instant-result-label">Стоимость услуг:</span>
-                        <span class="instant-result-value" id="resultCost">—</span>
-                    </div>
-                    
-                    <div class="instant-result-highlight">
-                        <strong>Ваша выгода уже сегодня!</strong>
-                        Оставьте заявку и получите бесплатную консультацию юриста по банкротству
-                    </div>
-                    
-                    <a href="https://antidolgi24.ru" target="_blank" class="btn btn-primary" style="width: 100%; margin-top: 20px;">Подробнее на antidolgi24.ru</a>
-                </div>
+                </form>
             </div>
         </div>
     </section>
@@ -703,10 +626,10 @@
                     <div class="footer-logo" style="font-size: 28px;">Анти<span>Долги</span></div>
                     <p class="footer-description">Профессиональная помощь в процедуре банкротства физических лиц. Бесплатная консультация и оценка вашей ситуации</p>
                     <div style="display: flex; gap: 15px; margin-top: 20px;">
-                        <a href="https://vk.com/antidolgim" target="_blank" style="display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; background: #4A76A8; border-radius: 50%; color: white; text-decoration: none;">
+                        <a href="https://vk.com/antidolgi24" target="_blank" style="display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; background: #4A76A8; border-radius: 50%; color: white; text-decoration: none;">
                             <span style="font-weight: bold;">ВК</span>
                         </a>
-                        <a href="https://T.me/Simanovlaw" target="_blank" style="display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; background: #26A5E4; border-radius: 50%; color: white; text-decoration: none;">
+                        <a href="https://t.me/antidolgi24" target="_blank" style="display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; background: #26A5E4; border-radius: 50%; color: white; text-decoration: none;">
                             <span style="font-weight: bold;">ТГ</span>
                         </a>
                     </div>
@@ -730,28 +653,6 @@
     <div class="online-status" id="onlineStatus">
         <span class="online-indicator"></span>
         <span>Сейчас онлайн: 2 консультанта</span>
-        <div class="messenger-options" id="messengerOptions">
-            <a href="https://wa.me/79951194911?text=Здравствуйте!%20Я%20хочу%20получить%20консультацию%20по%20банкротству." 
-               target="_blank" 
-               class="messenger-option">
-               <span style="display: flex; align-items: center; gap: 8px;">
-                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                       <path d="M12 2C6.48 2 2 6.48 2 12C2 16.12 4.87 19.59 8.84 20.8C9.34 20.88 9.5 20.55 9.5 20.34C9.5 20.16 9.49 19.82 9.48 19.31C7.07 20.1 5.19 18.95 4.4 17.1C4.24 16.72 4 16.15 4 15.5C4 13.02 6.02 11 8.5 11C9.47 11 10.36 11.25 11.13 11.69C11.53 11.92 11.77 12.01 12 12.01C12.23 12.01 12.47 11.92 12.87 11.69C14.37 10.83 16.5 10.84 18.01 11.69C18.5 11.96 18.96 12.29 19.38 12.65C19.5 12.75 19.61 12.87 19.71 13C20.34 13.63 20.97 14.26 21.6 14.89C21.82 15.11 22 15.29 22 15.5C22 17.98 19.98 20 17.5 20C16.53 20 15.64 19.75 14.87 19.31C14.47 19.08 14.23 18.99 14 18.99C13.77 18.99 13.53 19.08 13.13 19.31C11.63 20.17 9.5 20.16 7.99 19.31C7.76 19.19 7.53 19.06 7.31 18.92C7.82 18.79 8.29 18.58 8.71 18.3C9.3 17.9 9.5 17.05 9.5 16.5C9.5 14.57 7.93 13 6 13C4.07 13 2.5 14.57 2.5 16.5C2.5 18.43 4.07 20 6 20C7.25 20 8.31 19.1 8.84 18C9.34 17.92 9.66 17.5 10 17C10.34 16.5 10.5 15.83 10.5 15.5C10.5 14.12 9.38 13 8 13C6.62 13 5.5 14.12 5.5 15.5C5.5 16.88 6.62 18 8 18C8.33 18 8.65 17.9 8.93 17.75C9.21 17.6 9.45 17.39 9.64 17.14C9.83 16.89 10 16.6 10.12 16.3C10.24 16 10.33 15.7 10.38 15.4C10.43 15.1 10.46 14.8 10.46 14.5C10.46 14.2 10.43 13.9 10.38 13.6C10.33 13.3 10.24 13 10.12 12.7C9.99 12.39 9.83 12.1 9.64 11.85C9.45 11.6 9.21 11.39 8.93 11.24C8.65 11.09 8.33 11 8 11C5.24 11 3 13.24 3 16C3 18.76 5.24 21 8 21C10.76 21 13 18.76 13 16C13 15.67 12.91 15.35 12.76 15.07C12.61 14.79 12.4 14.55 12.15 14.36C11.9 14.17 11.61 14.01 11.3 13.88C10.99 13.76 10.69 13.67 10.39 13.62C10.09 13.57 9.79 13.54 9.49 13.54C9.19 13.54 8.89 13.57 8.59 13.62C8.29 13.67 7.99 13.76 7.69 13.88" fill="currentColor"/>
-                   </svg>
-                   WhatsApp
-               </span>
-            </a>
-            <a href="https://t.me/antidolgi24" 
-               target="_blank" 
-               class="messenger-option">
-               <span style="display: flex; align-items: center; gap: 8px;">
-                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                       <path d="M12 2C6.48 2 2 6.48 2 12C2 16.12 4.87 19.59 8.84 20.8C9.34 20.88 9.5 20.55 9.5 20.34C9.5 20.16 9.49 19.82 9.48 19.31C7.07 20.1 5.19 18.95 4.4 17.1C4.24 16.72 4 16.15 4 15.5C4 13.02 6.02 11 8.5 11C9.47 11 10.36 11.25 11.13 11.69C11.53 11.92 11.77 12.01 12 12.01C12.23 12.01 12.47 11.92 12.87 11.69C14.37 10.83 16.5 10.84 18.01 11.69C18.5 11.96 18.96 12.29 19.38 12.65C19.5 12.75 19.61 12.87 19.71 13C20.34 13.63 20.97 14.26 21.6 14.89C21.82 15.11 22 15.29 22 15.5C22 17.98 19.98 20 17.5 20C16.53 20 15.64 19.75 14.87 19.31C14.47 19.08 14.23 18.99 14 18.99C13.77 18.99 13.53 19.08 13.13 19.31C11.63 20.17 9.5 20.16 7.99 19.31C7.76 19.19 7.53 19.06 7.31 18.92C7.82 18.79 8.29 18.58 8.71 18.3C9.3 17.9 9.5 17.05 9.5 16.5C9.5 14.57 7.93 13 6 13C4.07 13 2.5 14.57 2.5 16.5C2.5 18.43 4.07 20 6 20C7.25 20 8.31 19.1 8.84 18C9.34 17.92 9.66 17.5 10 17C10.34 16.5 10.5 15.83 10.5 15.5C10.5 14.12 9.38 13 8 13C6.62 13 5.5 14.12 5.5 15.5C5.5 16.88 6.62 18 8 18C8.33 18 8.65 17.9 8.93 17.75C9.21 17.6 9.45 17.39 9.64 17.14C9.83 16.89 10 16.6 10.12 16.3C10.24 16 10.33 15.7 10.38 15.4C10.43 15.1 10.46 14.8 10.46 14.5C10.46 14.2 10.43 13.9 10.38 13.6C10.33 13.3 10.24 13 10.12 12.7C9.99 12.39 9.83 12.1 9.64 11.85C9.45 11.6 9.21 11.39 8.93 11.24C8.65 11.09 8.33 11 8 11C5.24 11 3 13.24 3 16C3 18.76 5.24 21 8 21C10.76 21 13 18.76 13 16C13 15.67 12.91 15.35 12.76 15.07C12.61 14.79 12.4 14.55 12.15 14.36C11.9 14.17 11.61 14.01 11.3 13.88C10.99 13.76 10.69 13.67 10.39 13.62C10.09 13.57 9.79 13.54 9.49 13.54C9.19 13.54 8.89 13.57 8.59 13.62C8.29 13.67 7.99 13.76 7.69 13.88" fill="currentColor"/>
-                   </svg>
-                   Telegram
-               </span>
-            </a>
-        </div>
     </div>
 
     <!-- Чат-бот -->
@@ -772,30 +673,9 @@
             return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
         }
 
-        // Расчет реальной выгоды и стоимости услуг
-        function calculateRealSavings() {
-            let debtInput = document.getElementById('debtAmount').value;
-            let debtAmount = debtInput.replace(/\D/g, '');
-            
-            if (debtAmount) {
-                const costInfo = calculateCost(debtAmount);
-                let realSavings;
-                
-                if (costInfo.min) {
-                    realSavings = debtAmount - costInfo.min;
-                } else {
-                    realSavings = debtAmount * 0.6; // Для случаев, где нужен индивидуальный расчет
-                }
-                
-                let formattedSavings = formatNumber(realSavings);
-                document.getElementById('savingsAmount').textContent = formattedSavings + ' ₽';
-            }
-        }
-
         // Расчет стоимости услуг и выгоды
         function calculateCost(debt) {
             debt = parseInt(debt);
-            
             if (debt < 300000) {
                 return {
                     min: null,
@@ -811,39 +691,47 @@
             } else if (debt <= 3500000) {
                 const avgCost = 190000;
                 const realSavings = debt - avgCost;
-                
                 return {
                     min: 130000,
                     avgCost: avgCost,
-                    message: `${formatNumber(avgCost)} ₽*<br>
-                              <small style="font-weight: normal; display: block; margin-top: 5px; color: var(--medium-gray);">
-                                  *Средняя стоимость услуги. Точная сумма рассчитывается индивидуально после бесплатной консультации</small>`,
+                    message: `${formatNumber(avgCost)} ₽*<br><small style="font-weight: normal; display: block; margin-top: 5px; color: var(--medium-gray);">*Средняя стоимость услуги. Точная сумма рассчитывается индивидуально после бесплатной консультации</small>`,
                     realSavings: realSavings
                 };
             } else if (debt <= 8000000) {
                 const avgCost = 220000;
                 const realSavings = debt - avgCost;
-                
                 return {
                     min: 150000,
                     avgCost: avgCost,
-                    message: `${formatNumber(avgCost)} ₽*<br>
-                              <small style="font-weight: normal; display: block; margin-top: 5px; color: var(--medium-gray);">
-                                  *Средняя стоимость услуги. Точная сумма рассчитывается индивидуально после бесплатной консультации</small>`,
+                    message: `${formatNumber(avgCost)} ₽*<br><small style="font-weight: normal; display: block; margin-top: 5px; color: var(--medium-gray);">*Средняя стоимость услуги. Точная сумма рассчитывается индивидуально после бесплатной консультации</small>`,
                     realSavings: realSavings
                 };
             } else {
                 const avgCost = 180000;
                 const realSavings = debt - avgCost;
-                
                 return {
                     min: 180000,
                     avgCost: avgCost,
-                    message: `от ${formatNumber(180000)} ₽*<br>
-                              <small style="font-weight: normal; display: block; margin-top: 5px; color: var(--medium-gray);">
-                                  *Точная стоимость определяется после анализа вашего дела</small>`,
+                    message: `от ${formatNumber(180000)} ₽*<br><small style="font-weight: normal; display: block; margin-top: 5px; color: var(--medium-gray);">*Точная стоимость определяется после анализа вашего дела</small>`,
                     realSavings: realSavings
                 };
+            }
+        }
+
+        // Расчет реальной выгоды и стоимости услуг
+        function calculateRealSavings() {
+            let debtInput = document.getElementById('debtAmount').value;
+            let debtAmount = debtInput.replace(/\D/g, '');
+            if (debtAmount) {
+                const costInfo = calculateCost(debtAmount);
+                let realSavings;
+                if (costInfo.realSavings !== null) {
+                    realSavings = costInfo.realSavings;
+                } else {
+                    realSavings = debtAmount * 0.6; // Для случаев, где нужен индивидуальный расчет
+                }
+                let formattedSavings = formatNumber(realSavings);
+                document.getElementById('savingsAmount').textContent = formattedSavings + ' ₽';
             }
         }
 
@@ -879,6 +767,7 @@
                 const debt = document.getElementById('formDebtAmount').value.replace(/\s/g, '');
                 const costInfo = calculateCost(debt);
                 
+                // Показываем сумму долга
                 document.getElementById('resultDebt').textContent = formatNumber(debt) + ' ₽';
                 
                 // Показываем реальную выгоду
@@ -915,67 +804,26 @@
         }
 
         // Обработка формы
-document.addEventListener('DOMContentLoaded', function() {
-  startCountdown();
-  const form = document.getElementById('leadForm');
-  const successMessage = document.getElementById('successMessage');
-  const errorMessage = document.getElementById('errorMessage');
-  
-  if (form) {
-    form.addEventListener('submit', function(e) {
-      e.preventDefault();
-      
-      const submitBtn = form.querySelector('button[type="submit"]');
-      const originalText = submitBtn.innerHTML;
-      
-      // Меняем кнопку на "Отправка..."
-      submitBtn.innerHTML = 'Отправка...';
-      submitBtn.disabled = true;
-
-      fetch(form.action, {
-        method: 'POST',
-        body: new FormData(form),
-        headers: {
-          'Accept': 'application/json'
-        }
-      })
-      .then(response => {
-        if (response.ok) {
-          successMessage.style.display = 'block';
-          errorMessage.style.display = 'none';
-          form.reset();
-          
-          // Через 1 секунду показываем результат
-          setTimeout(() => {
-            document.getElementById('contactForm').style.display = 'none';
-            document.getElementById('instantResult').style.display = 'block';
-            document.getElementById('instantResult').scrollIntoView({ behavior: 'smooth' });
-          }, 1000);
-        } else {
-          return response.json().then(data => {
-            throw new Error(data.errors?.map(e => e.message).join(', ') || 'Ошибка отправки формы');
-          });
-        }
-      })
-      .catch(error => {
-        errorMessage.textContent = 'Ошибка: ' + error.message;
-        errorMessage.style.display = 'block';
-        successMessage.style.display = 'none';
-      })
-      .finally(() => {
-        submitBtn.innerHTML = originalText;
-        submitBtn.disabled = false;
-      });
-    });
-  }
-});
+        document.addEventListener('DOMContentLoaded', function() {
+            startCountdown();
             
             const form = document.getElementById('leadForm');
             const successMessage = document.getElementById('successMessage');
             const errorMessage = document.getElementById('errorMessage');
             
+            if (!form) {
+                console.error('Форма с ID "leadForm" не найдена');
+                return;
+            }
+            
+            if (!successMessage || !errorMessage) {
+                console.error('Элементы сообщений не найдены');
+                return;
+            }
+            
             form.addEventListener('submit', function(e) {
                 e.preventDefault();
+                
                 const submitBtn = form.querySelector('button[type="submit"]');
                 const originalText = submitBtn.innerHTML;
                 
@@ -986,9 +834,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 fetch(form.action, {
                     method: 'POST',
                     body: new FormData(form),
-                    headers: {
-                        'Accept': 'application/json'
-                    }
+                    headers: { 'Accept': 'application/json' }
                 })
                 .then(response => {
                     if (response.ok) {
@@ -1003,7 +849,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         }, 1000);
                     } else {
                         return response.json().then(data => {
-                            throw new Error(data.errors?.map(e => e.message).join(', ') || 'Ошибка');
+                            throw new Error(data.errors?.map(e => e.message).join(', ') || 'Ошибка отправки формы');
                         });
                     }
                 })
@@ -1023,16 +869,8 @@ document.addEventListener('DOMContentLoaded', function() {
         function toggleChatbot() {
             const body = document.getElementById('chatbot-body');
             const toggle = document.getElementById('chatbot-toggle');
-            const input = document.getElementById('chatbot-input');
-            
-            if (body.style.display === 'none') {
-                body.style.display = 'block';
-                toggle.textContent = '−';
-                input.focus();
-            } else {
-                body.style.display = 'none';
-                toggle.textContent = '+';
-            }
+            body.style.display = body.style.display === 'none' ? 'block' : 'none';
+            toggle.textContent = body.style.display === 'none' ? '+' : '−';
         }
 
         function handleChatbotInput(e) {
@@ -1040,7 +878,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 const input = document.getElementById('chatbot-input');
                 const value = input.value.trim();
                 const body = document.getElementById('chatbot-body');
-                
                 if (!value) return;
                 
                 // Показываем сообщение пользователя
@@ -1058,20 +895,15 @@ document.addEventListener('DOMContentLoaded', function() {
                     const costInfo = calculateCost(debt);
                     
                     if (debt < 300000) {
-                        botMsg.innerHTML = `
-                            Для долгов менее 300 000 ₽ требуется <strong>индивидуальный расчет</strong>.<br><br>
-                            Напишите <a href="tel:+79951194911" style="color:var(--accent-orange);">нам по телефону</a> или 
-                            <a href="#assessment" style="color:var(--accent-orange);">оставьте заявку</a> для консультации.
-                        `;
+                        botMsg.innerHTML = `Для долгов менее 300 000 ₽ требуется <strong>индивидуальный расчет</strong>.<br><br>
+                        Напишите <a href="tel:+79951194911" style="color:var(--accent-orange);">нам по телефону</a> или
+                        <a href="#assessment" style="color:var(--accent-orange);">оставьте заявку</a> для консультации.`;
                     } else {
                         const realSavings = debt - costInfo.avgCost;
-                        
-                        botMsg.innerHTML = `
-                            При долге <b>${formatNumber(debt)} ₽</b> вы получите:<br>
-                            • <b>Реальную выгоду: ${formatNumber(realSavings)} ₽</b><br>
-                            • Стоимость услуги: <b>${costInfo.message}</b><br><br>
-                            Хотите <a href="#assessment" style="color:var(--accent-orange);">начать сейчас</a>?
-                        `;
+                        botMsg.innerHTML = `При долге <b>${formatNumber(debt)} ₽</b> вы получите:<br>
+                        • <b>Реальную выгоду: ${formatNumber(realSavings)} ₽</b><br>
+                        • Стоимость услуги: <b>${costInfo.message}</b><br><br>
+                        Хотите <a href="#assessment" style="color:var(--accent-orange);">начать сейчас</a>?`;
                     }
                 } else if (value.toLowerCase().includes('помоги') || value.toLowerCase().includes('как')) {
                     botMsg.textContent = 'Напишите сумму долга (например: 1 500 000) и я рассчитаю вашу реальную выгоду и стоимость услуги.';
